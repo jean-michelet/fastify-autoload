@@ -19,6 +19,11 @@ app.ready(function (err): void {
       url: '/installed'
     },
     function (err, res): void {
+      if (!res) {
+        t.fail("`res` argument must be defined")
+        return
+      }
+
       t.error(err)
       t.equal(res.statusCode, 200)
       t.same(JSON.parse(res.payload), { result: 'ok' })

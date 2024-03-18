@@ -4,7 +4,19 @@ const { test } = require('tap')
 const Fastify = require('fastify')
 const path = require('path')
 
-const autoload = require('../../..')
+// should not fail if argv and execArgv are falsy
+function requireAutoload () {
+  const originalProcess = process
+  global.process = { ...originalProcess, argv: null, execArgv: null }
+
+  const autoload = require('../../..')
+
+  global.process = originalProcess
+
+  return autoload
+}
+
+const autoload = requireAutoload()
 
 test('Should throw an error when trying to load invalid hooks', async (t) => {
   const app = Fastify()

@@ -6,16 +6,21 @@ const path = require('path')
 
 // should not fail if argv and execArgv are falsy
 function requireAutoload () {
+  const path = require.resolve('../../..')
+  delete require.cache[path];
+
   const originalArgv = process.argv
   const originalExecArgv = process.execArgv
 
   process.argv = false
   process.execArgv = false
-
+  
   const autoload = require('../../..')
 
   process.argv = originalArgv
   process.execArgv = originalExecArgv
+  
+  delete require.cache[path];
 
   return autoload
 }

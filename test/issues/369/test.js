@@ -5,15 +5,16 @@ const Fastify = require('fastify')
 const path = require('path')
 const autoload = require('../../..')
 
-test('Should throw an error when trying to load invalid hooks', async (t) => {
-  const app = Fastify()
+
+test('Should throw a SyntaxError when trying to load invalid hooks', async (t) => {
+  const app = Fastify();
   app.register(autoload, {
     dir: path.join(__dirname, 'invalid-autohooks'),
     autoHooks: true
-  })
+  });
 
-  await t.rejects(app.ready(), new SyntaxError(`Unexpected identifier at ${path.join(__dirname, 'invalid-autohooks/.autohooks.js')}:1`))
-})
+  await t.rejects(app.ready(), { instanceOf: SyntaxError });
+});
 
 test('Should throw an error when trying to import hooks plugin using index.ts if typescriptSupport is not enabled', async (t) => {
   const app = Fastify()

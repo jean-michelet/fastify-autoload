@@ -6,9 +6,7 @@ const { pathToFileURL } = require('node:url')
 
 const isFastifyAutoloadTypescriptOverride = !!process.env.FASTIFY_AUTOLOAD_TYPESCRIPT
 const isTsNode = (Symbol.for('ts-node.register.instance') in process) || !!process.env.TS_NODE_DEV
-const isBabelNode = (/* istanbul ignore next */process.execArgv || [])
-  .concat(/* istanbul ignore next */process.argv || [])
-  .some((arg) => arg.indexOf('babel-node') >= 0)
+const isBabelNode = process.execArgv.concat(process.argv).some((arg) => arg.indexOf('babel-node') >= 0)
 
 const isVitestEnvironment = process.env.VITEST === 'true' || process.env.VITEST_WORKER_ID !== undefined
 const isJestEnvironment = process.env.JEST_WORKER_ID !== undefined
@@ -16,7 +14,7 @@ const isSWCRegister = process._preload_modules && process._preload_modules.inclu
 const isSWCNodeRegister = process._preload_modules && process._preload_modules.includes('@swc-node/register')
 const isSWCNode = typeof process.env._ === 'string' && process.env._.includes('.bin/swc-node')
 const isTsm = process._preload_modules && process._preload_modules.includes('tsm')
-const isEsbuildRegister = process._preload_modules && process._preload_modules.includes('esbuild-register')
+const isEsbuildRegister = /* istanbul ignore next */ process._preload_modules && process._preload_modules.includes('esbuild-register')
 const isTsx = process._preload_modules && process._preload_modules.toString().includes('tsx')
 const typescriptSupport = isFastifyAutoloadTypescriptOverride || isTsNode || isVitestEnvironment || isBabelNode || isJestEnvironment || isSWCRegister || isSWCNodeRegister || isSWCNode || isTsm || isTsx || isEsbuildRegister
 

@@ -5,16 +5,15 @@ const Fastify = require('fastify')
 const path = require('path')
 const autoload = require('../../..')
 
-
 test('Should throw a SyntaxError when trying to load invalid hooks', async (t) => {
-  const app = Fastify();
+  const app = Fastify()
   app.register(autoload, {
     dir: path.join(__dirname, 'invalid-autohooks'),
     autoHooks: true
-  });
+  })
 
-  await t.rejects(app.ready(), /Invalid or unexpected token/);
-});
+  await t.rejects(app.ready(), /Invalid or unexpected token/)
+})
 
 test('Should throw an error when trying to import hooks plugin using index.ts if typescriptSupport is not enabled', async (t) => {
   const app = Fastify()

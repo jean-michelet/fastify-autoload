@@ -12,7 +12,7 @@ const isVitestEnvironment = process.env.VITEST === 'true' || process.env.VITEST_
 const isJestEnvironment = process.env.JEST_WORKER_ID !== undefined
 const isSWCRegister = process._preload_modules && process._preload_modules.includes('@swc/register')
 const isSWCNodeRegister = process._preload_modules && process._preload_modules.includes('@swc-node/register')
-const isSWCNode = typeof process.env._ === 'string' && process.env._.includes('.bin/swc-node')
+const isSWCNode = /* istanbul ignore next */ typeof process.env._ === 'string' && process.env._.includes('.bin/swc-node')
 const isTsm = process._preload_modules && process._preload_modules.includes('tsm')
 const isEsbuildRegister = /* istanbul ignore next */ process._preload_modules && process._preload_modules.includes('esbuild-register')
 const isTsx = process._preload_modules && process._preload_modules.toString().includes('tsx')

@@ -9,14 +9,14 @@ const isTsNode = (Symbol.for('ts-node.register.instance') in process) || !!proce
 const isBabelNode = process.execArgv.concat(process.argv).some((arg) => arg.indexOf('babel-node') >= 0)
 
 const isVitestEnvironment = process.env.VITEST === 'true' || process.env.VITEST_WORKER_ID !== undefined
-const isJestEnvironment = process.env.JEST_WORKER_ID !== undefined
-const isSWCRegister = process._preload_modules && process._preload_modules.includes('@swc/register')
-const isSWCNodeRegister = process._preload_modules && process._preload_modules.includes('@swc-node/register')
+const isJestEnvironment = /* istanbul ignore next */ process.env.JEST_WORKER_ID !== undefined
+const isSWCRegister = /* istanbul ignore next */ process._preload_modules?.includes('@swc/register')
+const isSWCNodeRegister = /* istanbul ignore next */ process._preload_modules?.includes('@swc-node/register')
 const isSWCNode = /* istanbul ignore next */ typeof process.env._ === 'string' && process.env._.includes('.bin/swc-node')
-const isTsm = process._preload_modules && process._preload_modules.includes('tsm')
-const isEsbuildRegister = process._preload_modules && process._preload_modules.includes('esbuild-register')
-const isTsx = process._preload_modules && process._preload_modules.toString().includes('tsx')
-const typescriptSupport = isFastifyAutoloadTypescriptOverride || isTsNode || isVitestEnvironment || isBabelNode || isJestEnvironment || isSWCRegister || isSWCNodeRegister || isSWCNode || isTsm || isTsx || isEsbuildRegister
+const isTsm = /* istanbul ignore next */ process._preload_modules?.includes('tsm')
+const isEsbuildRegister = /* istanbul ignore next */ process._preload_modules?.includes('esbuild-register')
+const isTsx = /* istanbul ignore next */ process._preload_modules?.toString()?.includes('tsx')
+const typescriptSupport = /* istanbul ignore next */ isFastifyAutoloadTypescriptOverride || isTsNode || isVitestEnvironment || isBabelNode || isJestEnvironment || isSWCRegister || isSWCNodeRegister || isSWCNode || isTsm || isTsx || isEsbuildRegister
 
 const forceESMEnvironment = isVitestEnvironment || false
 const routeParamPattern = /\/_/gu

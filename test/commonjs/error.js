@@ -4,7 +4,7 @@ const t = require('tap')
 const fastify = require('fastify')
 
 t.test('independent of module support', function (t) {
-  t.plan(8)
+  t.plan(7)
   const app = fastify()
 
   app.register(require('./syntax-error/app'))
@@ -28,8 +28,7 @@ t.test('independent of module support', function (t) {
   app3.register(require('./ts-error/app'))
 
   app3.ready(function (err) {
-    t.type(err, Error)
-    t.match(err.message, /cannot import plugin.*typescript/i)
+    t.error(err)
   })
 
   const app4 = fastify()

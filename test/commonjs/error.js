@@ -23,8 +23,8 @@ t.test('independent of module support', function (t) {
     t.match(err.message, /cannot import plugin.*index/i)
   })
 
+// TODO: Fix this test
   const app3 = fastify()
-
   app3.register(require('./ts-error/app'))
 
   app3.ready(function (err) {

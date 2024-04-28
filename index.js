@@ -16,9 +16,9 @@ const isSWCNode = typeof process.env._ === 'string' && process.env._.includes('.
 const isTsm = process._preload_modules && process._preload_modules.includes('tsm')
 const isEsbuildRegister = process._preload_modules && process._preload_modules.includes('esbuild-register')
 const isTsx = process._preload_modules && process._preload_modules.toString().includes('tsx')
-let typescriptSupport = isFastifyAutoloadTypescriptOverride || isTsNode || isVitestEnvironment || isBabelNode || isJestEnvironment || isSWCRegister || isSWCNodeRegister || isSWCNode || isTsm || isTsx || isEsbuildRegister
-if (Number(process.env.FASTIFY_AUTOLOAD_TYPESCRIPT) === 0) {
-  typescriptSupport = false
+let typescriptSupport = false
+if (Number(process.env.FASTIFY_AUTOLOAD_TYPESCRIPT) !== 0) {
+  typescriptSupport = isFastifyAutoloadTypescriptOverride || isTsNode || isVitestEnvironment || isBabelNode || isJestEnvironment || isSWCRegister || isSWCNodeRegister || isSWCNode || isTsm || isTsx || isEsbuildRegister
 }
 
 const forceESMEnvironment = isVitestEnvironment || false

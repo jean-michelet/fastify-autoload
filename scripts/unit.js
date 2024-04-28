@@ -6,7 +6,7 @@ doExec('npm run unit:with-modules', {
   shell: true,
   env: {
     ...process.env,
-    TS_NODE_DEV: 0
+    FASTIFY_AUTOLOAD_TYPESCRIPT: 0
   }
 })
 

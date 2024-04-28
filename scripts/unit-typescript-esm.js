@@ -6,7 +6,7 @@ const args = [
   'tap',
   '--node-arg=--import=ts-node/esm',
   '--node-arg=--experimental-specifier-resolution=node',
-  '--no-coverage',
+  '--disable-coverage',
   'test/typescript-esm/*.ts'
 ]
 

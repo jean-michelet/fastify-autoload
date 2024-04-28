@@ -5,7 +5,7 @@ const { exec } = require('node:child_process')
 const args = [
   'tap',
   '--node-arg=--require=tsm',
-  '--no-coverage',
+  '--disable-coverage',
   'test/typescript/*.ts'
 ]
 

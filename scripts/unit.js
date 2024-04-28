@@ -13,9 +13,9 @@ doExec('npm run unit:with-modules', {
 doExec('npm run unit:with-ts-modules')
 
 function doExec (cmd, opts = {}) {
-    const child = exec(cmd, opts)
-  
-    child.stdout.pipe(process.stdout)
-    child.stderr.pipe(process.stderr)
-    child.once('close', process.exit)
-  }
+  const child = exec(cmd, opts)
+
+  child.stdout.pipe(process.stdout)
+  child.stderr.pipe(process.stderr)
+  child.once('close', process.exit)
+}

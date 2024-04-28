@@ -1,3 +1,4 @@
+# vim: set filetype=yaml :
 disable-coverage: true
 files:
   - test/commonjs/*.js

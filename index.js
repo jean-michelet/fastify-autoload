@@ -5,7 +5,11 @@ const { join, relative, sep } = require('node:path')
 const { pathToFileURL } = require('node:url')
 
 const isFastifyAutoloadTypescriptOverride = !!process.env.FASTIFY_AUTOLOAD_TYPESCRIPT
-const isTsNode = (Symbol.for('ts-node.register.instance') in process) || !!process.env.TS_NODE_DEV
+let isTsNode = (Symbol.for('ts-node.register.instance') in process)
+if (process.env.TS_NODE_DEV === '0') {
+  isTsNode = false
+}
+
 const isBabelNode = (process?.execArgv || []).concat(process?.argv || []).some((arg) => arg.indexOf('babel-node') >= 0)
 
 const isVitestEnvironment = process.env.VITEST === 'true' || process.env.VITEST_WORKER_ID !== undefined

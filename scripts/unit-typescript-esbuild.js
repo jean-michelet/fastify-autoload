@@ -3,7 +3,8 @@
 const { exec } = require('node:child_process')
 
 const args = [
-  'node',
+  'npx',
+  'ts-node',
   '-r esbuild-register',
   'test/typescript/basic.ts'
 ]

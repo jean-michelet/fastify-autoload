@@ -4,9 +4,8 @@ const { exec } = require('node:child_process')
 
 const args = [
   'tap',
-  '--node-arg=--loader=ts-node/esm',
   '--node-arg=--experimental-specifier-resolution=node',
-  '--no-coverage',
+  '--disable-coverage',
   'test/typescript-esm/*.ts'
 ]
 

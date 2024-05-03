@@ -1,3 +1,2 @@
-ts: true
-jsx: false
-flow: false
+# vim: set filetype=yaml :
+plugin: []

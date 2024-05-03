@@ -1,3 +1,4 @@
-# vim: set filetype=yaml :
-plugin:
-  - "!@tapjs/typescript"
+# Important: Do not configure `@tapjs/typescript` removal here.
+# The reason is that `tap` might incorrectly assume the plugin has already been removed.
+# Since this plugin is installed by default, we should remove it when launching the tests.
+# This is necessary for CI.

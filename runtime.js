@@ -1,5 +1,7 @@
 'use strict'
 
+const path = require('path')
+
 // runtime cache
 const cache = {}
 
@@ -14,11 +16,16 @@ function checkProcessArgv (moduleName) {
 
 let preloadModules
 function checkPreloadModules (moduleName) {
+  const modulePath = path.join(process.cwd(), 'node_modules/', moduleName)
+
   /* c8 ignore start */
-  // nullish needed for non Node.js runtime
+  // coverage - nullish needed for non Node.js runtime
   preloadModules ??= (process._preload_modules ?? [])
+
+  // coverage - TS specific
+  return preloadModules.includes(moduleName) ||
+    Object.keys(require.cache).some(k => k.startsWith(modulePath) && preloadModules.push(modulePath))
   /* c8 ignore stop */
-  return preloadModules.includes(moduleName)
 }
 
 let preloadModulesString
@@ -28,9 +35,7 @@ function checkPreloadModulesString (moduleName) {
 }
 
 function checkEnvVariable (name, value) {
-  return value
-    ? process.env[name] === value
-    : process.env[name] !== undefined
+  return value ? process.env[name] === value : process.env[name] !== undefined
 }
 
 const runtime = {}
@@ -38,14 +43,13 @@ const runtime = {}
 Object.defineProperties(runtime, {
   tsNode: {
     get () {
-      cache.tsNode ??= (
+      cache.tsNode ??=
         // --require tsnode/register
-        (Symbol.for('ts-node.register.instance') in process) ||
+        Symbol.for('ts-node.register.instance') in process ||
         // --loader ts-node/esm
         checkProcessArgv('ts-node/esm') ||
         // ts-node-dev
         !!process.env.TS_NODE_DEV
-      )
       return cache.tsNode
     }
   },
@@ -57,10 +61,9 @@ Object.defineProperties(runtime, {
   },
   vitest: {
     get () {
-      cache.vitest ??= (
+      cache.vitest ??=
         checkEnvVariable('VITEST', 'true') ||
         checkEnvVariable('VITEST_WORKER_ID')
-      )
       return cache.vitest
     }
   },
@@ -72,11 +75,10 @@ Object.defineProperties(runtime, {
   },
   swc: {
     get () {
-      cache.swc ??= (
+      cache.swc ??=
         checkPreloadModules('@swc/register') ||
         checkPreloadModules('@swc-node/register') ||
         checkProcessArgv('.bin/swc-node')
-      )
       return cache.swc
     }
   },
@@ -100,7 +102,7 @@ Object.defineProperties(runtime, {
   },
   supportTypeScript: {
     get () {
-      cache.supportTypeScript ??= (
+      cache.supportTypeScript ??=
         checkEnvVariable('FASTIFY_AUTOLOAD_TYPESCRIPT') ||
         runtime.tsNode ||
         runtime.vitest ||
@@ -110,17 +112,13 @@ Object.defineProperties(runtime, {
         runtime.tsm ||
         runtime.tsx ||
         runtime.esbuild
-      )
       return cache.supportTypeScript
     }
   },
   forceESM: {
     get () {
-      cache.forceESM ??= (
-        checkProcessArgv('ts-node/esm') ||
-        runtime.vitest ||
-        false
-      )
+      cache.forceESM ??=
+        checkProcessArgv('ts-node/esm') || runtime.vitest || false
       return cache.forceESM
     }
   }
